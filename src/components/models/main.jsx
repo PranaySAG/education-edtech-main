@@ -8,7 +8,7 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import Webcam from "react-webcam";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 
 const highlights = [
   {
@@ -71,12 +71,14 @@ const CameraComponent = ({ setImage, setImagePreview, onImagePresent }) => {
       )}
       <div className="flex gap-3">
         <button
+          type="button"
           onClick={capture}
           className="inline-flex items-center justify-center rounded-full bg-white px-4 py-3 text-slate-950 transition duration-300 hover:-translate-y-0.5 hover:bg-emerald-50"
         >
           <FaCamera className="text-base" />
         </button>
         <button
+          type="button"
           onClick={() => setCameraActive(!cameraActive)}
           className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 p-3 text-white backdrop-blur-xl transition duration-300 hover:bg-white/10"
         >
@@ -123,39 +125,38 @@ const GeminiImageText = () => {
     setOutput("Generating...");
     setShowOutput(true);
 
-    if (!imagePreview && !cameraImage) {
-      setOutput("Please select or capture an image.");
+    if (!prompt.trim() && !imagePreview && !cameraImage) {
+      setOutput("Enter a prompt or select an image.");
       return;
     }
 
     try {
-      let imageDataUrl = cameraImage || imagePreview;
-
-      const genAI = new GoogleGenerativeAI(API_KEY);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-      const contents = [
-        {
-          role: "user",
-          parts: [
-            { text: prompt },
-            {
-              inlineData: {
-                mimeType: imageDataUrl.startsWith("data:image/jpeg") ? "image/jpeg" : "image/png",
-                data: imageDataUrl.split(",")[1],
-              },
-            },
-          ],
-        },
-      ];
-
-      const result = await model.generateContentStream({ contents });
-
-      let buffer = [];
-      for await (let response of result.stream) {
-        buffer.push(response.text());
-        setOutput(buffer.join(""));
+      if (!API_KEY) {
+        throw new Error("Missing VITE_GEMINI_API_KEY. Add it to your .env.local file.");
       }
+
+      const ai = new GoogleGenAI({ apiKey: API_KEY });
+      const imageDataUrl = cameraImage || imagePreview;
+
+      // Format payload for the Interactions API
+      const input = imageDataUrl
+        ? (() => {
+            const [header, imageData] = imageDataUrl.split(",");
+            const mimeType = header.match(/data:(.*?);base64/)?.[1] || "image/jpeg";
+            return [
+              { type: "text", text: prompt.trim() || "Describe and analyze this image." },
+              { type: "image", data: imageData, mime_type: mimeType },
+            ];
+          })()
+        : prompt.trim();
+
+      // Call Gemini 3.6 Flash via the Interactions API
+      const interaction = await ai.interactions.create({
+        model: "gemini-3.6-flash",
+        input,
+      });
+
+      setOutput(interaction.output_text || "Gemini returned no text output.");
     } catch (error) {
       setOutput(`Error: ${error.message}`);
     }
@@ -164,10 +165,10 @@ const GeminiImageText = () => {
   return (
     <div className="relative min-h-screen overflow-hidden px-4 py-6 sm:px-6 lg:px-8">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(34,197,94,0.24),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(59,130,246,0.24),_transparent_28%),linear-gradient(180deg,_#06111c_0%,_#071725_45%,_#030712_100%)]" />
-      <div className="absolute inset-0 noise-overlay opacity-40" />
+      <div className="absolute inset-0 opacity-40" />
 
       <div className="relative mx-auto max-w-7xl space-y-6 lg:space-y-8">
-        <section className="glass-panel overflow-hidden rounded-[2rem] border border-white/15 p-6 shadow-[0_30px_120px_rgba(0,0,0,0.45)] sm:p-8 animate-rise-in">
+        <section className="glass-panel overflow-hidden rounded-[2rem] border border-white/15 p-6 shadow-[0_30px_120px_rgba(0,0,0,0.45)] sm:p-8">
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-white/80 backdrop-blur-xl">
@@ -180,7 +181,7 @@ const GeminiImageText = () => {
                   Analyze images with a calm, premium, glass-style interface.
                 </h1>
                 <p className="max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
-                  Upload a file or use your camera, then ask Gemini to describe, explain, compare, or improve what it sees. The page is responsive, motion-aware, and visually consistent with the new home theme.
+                  Upload a file or use your camera, then ask Gemini to describe, explain, compare, or improve what it sees.
                 </p>
               </div>
 
@@ -221,7 +222,7 @@ const GeminiImageText = () => {
                     <span>Polished</span>
                   </div>
                   <div className="mt-3 h-3 overflow-hidden rounded-full bg-white/10">
-                    <div className="h-full w-[91%] rounded-full bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400 progress-bar" />
+                    <div className="h-full w-[91%] rounded-full bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400" />
                   </div>
                 </div>
               </div>
@@ -230,7 +231,7 @@ const GeminiImageText = () => {
         </section>
 
         <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
-          <section className="glass-panel rounded-[2rem] border border-white/15 p-5 sm:p-6 animate-rise-in delay-1">
+          <section className="glass-panel rounded-[2rem] border border-white/15 p-5 sm:p-6">
             {showOutput ? (
               <div className="space-y-4">
                 <div className="flex items-center justify-between gap-3">
@@ -239,6 +240,7 @@ const GeminiImageText = () => {
                     <h2 className="text-2xl font-semibold text-white">Your analysis is ready</h2>
                   </div>
                   <button
+                    type="button"
                     onClick={() => setShowOutput(false)}
                     className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-xl transition duration-300 hover:bg-white/15"
                   >
@@ -249,9 +251,9 @@ const GeminiImageText = () => {
                 <div className="rounded-[1.5rem] border border-white/10 bg-slate-950/50 p-4 text-sm leading-7 text-slate-200 shadow-inner">
                   <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.28em] text-slate-400">
                     <span className="h-2 w-2 rounded-full bg-emerald-300" />
-                    streamed response
+                    response
                   </div>
-                  <div className="max-h-[420px] overflow-y-auto pr-2">
+                  <div className="max-h-[420px] overflow-y-auto whitespace-pre-wrap pr-2">
                     {output}
                   </div>
                 </div>
@@ -270,7 +272,7 @@ const GeminiImageText = () => {
 
                 <div className="mt-6 grid gap-5 lg:grid-cols-2">
                   <div
-                    className="group flex min-h-[360px] flex-col items-center justify-center gap-4 rounded-[1.75rem] border border-dashed border-white/15 bg-white/5 p-6 text-center transition duration-300 hover:border-white/30 hover:bg-white/7"
+                    className="group flex min-h-[360px] cursor-pointer flex-col items-center justify-center gap-4 rounded-[1.75rem] border border-dashed border-white/15 bg-white/5 p-6 text-center transition duration-300 hover:border-white/30 hover:bg-white/10"
                     onClick={() => fileInputRef.current?.click()}
                   >
                     <div className="rounded-full border border-white/15 bg-white/10 p-5 text-white backdrop-blur-xl transition duration-300 group-hover:scale-105">
@@ -289,6 +291,7 @@ const GeminiImageText = () => {
                           className="mx-auto h-56 w-full max-w-md rounded-[1.4rem] object-cover shadow-2xl ring-1 ring-white/10"
                         />
                         <button
+                          type="button"
                           onClick={(e) => {
                             e.stopPropagation();
                             setImagePreview(null);
@@ -331,16 +334,16 @@ const GeminiImageText = () => {
                       value={prompt}
                       onChange={(e) => setPrompt(e.target.value)}
                       rows={4}
-                      className="w-full rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-white/25 focus:bg-white/7"
+                      className="w-full rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-white/25 focus:bg-white/10"
                     />
                   </div>
 
                   <button
                     type="submit"
                     className={`inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-3.5 text-sm font-semibold text-slate-950 transition duration-300 hover:-translate-y-0.5 hover:bg-emerald-50 ${
-                      !isImagePresent ? "cursor-not-allowed opacity-50" : ""
+                      !prompt.trim() && !isImagePresent ? "cursor-not-allowed opacity-50" : ""
                     }`}
-                    disabled={!isImagePresent}
+                    disabled={!prompt.trim() && !isImagePresent}
                   >
                     <FaPaperPlane />
                     Generate analysis
@@ -351,7 +354,7 @@ const GeminiImageText = () => {
           </section>
 
           <aside className="space-y-6">
-            <div className="glass-panel rounded-[2rem] border border-white/15 p-5 sm:p-6 animate-rise-in delay-2">
+            <div className="glass-panel rounded-[2rem] border border-white/15 p-5 sm:p-6">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-sm text-slate-300">Quick tips</p>
@@ -375,14 +378,14 @@ const GeminiImageText = () => {
               </div>
             </div>
 
-            <div className="glass-panel rounded-[2rem] border border-white/15 p-5 sm:p-6 animate-rise-in delay-3">
+            <div className="glass-panel rounded-[2rem] border border-white/15 p-5 sm:p-6">
               <p className="text-sm text-slate-300">Flow</p>
               <h3 className="mt-1 text-xl font-semibold text-white">From image to insight</h3>
               <div className="mt-5 space-y-4">
                 {[
                   "Pick a file or capture from camera",
                   "Add a short prompt or question",
-                  "Review streamed Gemini output",
+                  "Review Gemini output",
                 ].map((step, index) => (
                   <div key={step} className="flex items-start gap-3 rounded-3xl border border-white/10 bg-slate-950/40 p-4">
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-sm font-semibold text-white">
@@ -397,7 +400,7 @@ const GeminiImageText = () => {
         </div>
 
         <footer className="pb-4 text-center text-xs text-slate-400 sm:pb-6">
-          Built with the same visual language as the homepage: glassmorphism, depth, and motion.
+          Built with glassmorphism, depth, and motion.
         </footer>
       </div>
     </div>
