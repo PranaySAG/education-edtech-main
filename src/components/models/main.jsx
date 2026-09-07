@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import Webcam from "react-webcam";
 import { GoogleGenAI } from "@google/genai";
+import ReactMarkdown from "react-markdown";
 
 const highlights = [
   {
@@ -138,7 +139,6 @@ const GeminiImageText = () => {
       const ai = new GoogleGenAI({ apiKey: API_KEY });
       const imageDataUrl = cameraImage || imagePreview;
 
-      // Format payload for the Interactions API
       const input = imageDataUrl
         ? (() => {
             const [header, imageData] = imageDataUrl.split(",");
@@ -150,7 +150,6 @@ const GeminiImageText = () => {
           })()
         : prompt.trim();
 
-      // Call Gemini 3.6 Flash via the Interactions API
       const interaction = await ai.interactions.create({
         model: "gemini-3.6-flash",
         input,
@@ -248,13 +247,27 @@ const GeminiImageText = () => {
                   </button>
                 </div>
 
-                <div className="rounded-[1.5rem] border border-white/10 bg-slate-950/50 p-4 text-sm leading-7 text-slate-200 shadow-inner">
-                  <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.28em] text-slate-400">
+                <div className="rounded-[1.5rem] border border-white/10 bg-slate-950/50 p-5 text-slate-200 shadow-inner">
+                  <div className="mb-4 flex items-center gap-2 text-xs uppercase tracking-[0.28em] text-slate-400">
                     <span className="h-2 w-2 rounded-full bg-emerald-300" />
                     response
                   </div>
-                  <div className="max-h-[420px] overflow-y-auto whitespace-pre-wrap pr-2">
-                    {output}
+                  <div className="max-h-[420px] overflow-y-auto pr-2">
+                    <ReactMarkdown
+                      components={{
+                        h1: ({ children }) => <h1 className="mt-4 mb-2 text-2xl font-bold text-white">{children}</h1>,
+                        h2: ({ children }) => <h2 className="mt-3 mb-2 text-xl font-semibold text-white">{children}</h2>,
+                        h3: ({ children }) => <h3 className="mt-2 mb-1 text-lg font-medium text-white">{children}</h3>,
+                        p: ({ children }) => <p className="mb-3 text-sm leading-relaxed text-slate-300">{children}</p>,
+                        ul: ({ children }) => <ul className="mb-3 list-disc space-y-1.5 pl-5 text-sm text-slate-300">{children}</ul>,
+                        ol: ({ children }) => <ol className="mb-3 list-decimal space-y-1.5 pl-5 text-sm text-slate-300">{children}</ol>,
+                        li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+                        strong: ({ children }) => <strong className="font-semibold text-emerald-300">{children}</strong>,
+                        code: ({ children }) => <code className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-xs text-amber-200">{children}</code>,
+                      }}
+                    >
+                      {output}
+                    </ReactMarkdown>
                   </div>
                 </div>
               </div>

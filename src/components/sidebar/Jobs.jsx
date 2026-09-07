@@ -244,53 +244,63 @@ function Job() {
 
         <section className="glass-panel rounded-[2rem] border border-white/15 p-5 sm:p-6 animate-rise-in delay-1">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
-            <div className="relative flex-1">
+            {/* Job Title Input */}
+            <div className="flex-1">
               <label className="mb-2 block text-sm text-slate-300">Job title</label>
-              <FaBriefcase className="absolute left-4 top-[3.15rem] shrink-0 align-middle text-slate-400" />
-              <input
-                type="text"
-                value={jobTitle}
-                onChange={(e) => setJobTitle(e.target.value)}
-                placeholder="Job Title (e.g., Data Scientist)"
-                className="w-full rounded-[1.3rem] border border-white/10 bg-white/5 py-3 pl-11 pr-10 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-white/25 focus:bg-white/10"
-                onKeyDown={(e) => e.key === 'Enter' && fetchSalaryData()}
-                aria-label="Job Title"
-              />
-              {jobTitle && (
-                <button
-                  onClick={() => clearInput('jobTitle')}
-                  className="absolute right-4 top-[3.05rem] text-slate-400 transition hover:text-red-300"
-                  aria-label="Clear job title"
-                >
-                  <FaTimesCircle className="shrink-0 align-middle text-sm" />
-                </button>
-              )}
+              <div className="relative flex items-center">
+                <FaBriefcase className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  value={jobTitle}
+                  onChange={(e) => setJobTitle(e.target.value)}
+                  placeholder="Job Title (e.g., Data Scientist)"
+                  className="w-full rounded-[1.3rem] border border-white/10 bg-white/5 py-3 pl-11 pr-10 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-white/25 focus:bg-white/10"
+                  onKeyDown={(e) => e.key === 'Enter' && fetchSalaryData()}
+                  aria-label="Job Title"
+                />
+                {jobTitle && (
+                  <button
+                    type="button"
+                    onClick={() => clearInput('jobTitle')}
+                    className="absolute right-4 top-1/2 flex -translate-y-1/2 items-center text-slate-400 transition hover:text-red-300"
+                    aria-label="Clear job title"
+                  >
+                    <FaTimesCircle className="text-sm" />
+                  </button>
+                )}
+              </div>
             </div>
 
-            <div className="relative flex-1">
+            {/* Location Input */}
+            <div className="flex-1">
               <label className="mb-2 block text-sm text-slate-300">Location</label>
-              <FaMapMarkerAlt className="absolute left-4 top-[3.15rem] shrink-0 align-middle text-slate-400" />
-              <input
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="Location (e.g., London)"
-                className="w-full rounded-[1.3rem] border border-white/10 bg-white/5 py-3 pl-11 pr-10 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-white/25 focus:bg-white/10"
-                onKeyDown={(e) => e.key === 'Enter' && fetchSalaryData()}
-                aria-label="Location"
-              />
-              {location && (
-                <button
-                  onClick={() => clearInput('location')}
-                  className="absolute right-4 top-[3.05rem] text-slate-400 transition hover:text-red-300"
-                  aria-label="Clear location"
-                >
-                  <FaTimesCircle className="shrink-0 align-middle text-sm" />
-                </button>
-              )}
+              <div className="relative flex items-center">
+                <FaMapMarkerAlt className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="Location (e.g., London)"
+                  className="w-full rounded-[1.3rem] border border-white/10 bg-white/5 py-3 pl-11 pr-10 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-white/25 focus:bg-white/10"
+                  onKeyDown={(e) => e.key === 'Enter' && fetchSalaryData()}
+                  aria-label="Location"
+                />
+                {location && (
+                  <button
+                    type="button"
+                    onClick={() => clearInput('location')}
+                    className="absolute right-4 top-1/2 flex -translate-y-1/2 items-center text-slate-400 transition hover:text-red-300"
+                    aria-label="Clear location"
+                  >
+                    <FaTimesCircle className="text-sm" />
+                  </button>
+                )}
+              </div>
             </div>
 
+            {/* Search Button */}
             <button
+              type="button"
               onClick={fetchSalaryData}
               className={`inline-flex items-center justify-center rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 transition duration-300 hover:-translate-y-0.5 hover:bg-emerald-50 ${
                 loading ? 'cursor-not-allowed opacity-70' : ''
@@ -299,9 +309,9 @@ function Job() {
               aria-label="Search"
             >
               {loading ? (
-                <FaSpinner className="mr-2 shrink-0 align-middle animate-spin" />
+                <FaSpinner className="mr-2 animate-spin" />
               ) : (
-                <FaSearch className="mr-2 shrink-0 align-middle" />
+                <FaSearch className="mr-2" />
               )}
               {loading ? 'Searching...' : 'Search'}
             </button>
@@ -310,33 +320,35 @@ function Job() {
           {recentSearches.length > 0 && (
             <div className="mt-5 border-t border-white/10 pt-5 animate-rise-in delay-2">
               <p className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-300">
-                <FaHistory className="shrink-0 align-middle text-emerald-300" /> Recent searches
+                <FaHistory className="text-emerald-300" /> Recent searches
               </p>
               <div className="flex flex-wrap gap-2">
                 {recentSearches.map((search, index) => (
-                  <div key={index} className="relative group">
+                  <div key={index} className="group relative flex items-center">
                     <button
+                      type="button"
                       onClick={() => {
                         setJobTitle(search.jobTitle);
                         setLocation(search.location);
                         toast(`Loaded: ${search.jobTitle} in ${search.location}`);
                         fetchSalaryData();
                       }}
-                      className="rounded-full border border-white/10 bg-white/5 px-4 py-2 pr-9 text-xs text-slate-200 backdrop-blur-xl transition hover:border-white/20 hover:bg-white/10"
+                      className="rounded-full border border-white/10 bg-white/5 py-2 pl-4 pr-8 text-xs text-slate-200 backdrop-blur-xl transition hover:border-white/20 hover:bg-white/10"
                       title={`Search for ${search.jobTitle} in ${search.location}`}
                     >
                       {search.jobTitle} in {search.location}
                     </button>
                     <button
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         removeSearch(search);
                       }}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-red-300"
+                      className="absolute right-2.5 top-1/2 flex -translate-y-1/2 items-center text-slate-400 transition hover:text-red-300"
                       aria-label={`Remove search for ${search.jobTitle} in ${search.location}`}
                       title="Remove search"
                     >
-                      <FaTimesCircle className="shrink-0 align-middle text-xs" />
+                      <FaTimesCircle className="text-xs" />
                     </button>
                   </div>
                 ))}
@@ -365,6 +377,7 @@ function Job() {
                   <p>{error}</p>
                 </div>
                 <button
+                  type="button"
                   onClick={fetchSalaryData}
                   className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:-translate-y-0.5 hover:bg-emerald-50"
                 >
@@ -386,6 +399,7 @@ function Job() {
                     </h2>
                   </div>
                   <button
+                    type="button"
                     onClick={copySalaryInfo}
                     className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/90 backdrop-blur-xl transition hover:bg-white/10"
                     aria-label="Copy salary info"
