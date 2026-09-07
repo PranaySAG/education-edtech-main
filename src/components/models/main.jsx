@@ -10,6 +10,28 @@ import {
 import Webcam from "react-webcam";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+const highlights = [
+  {
+    label: "Fast setup",
+    value: "Upload or capture instantly",
+  },
+  {
+    label: "Smart prompt",
+    value: "Ask for analysis, ideas, or edits",
+  },
+  {
+    label: "Live response",
+    value: "Streamed output with clean formatting",
+  },
+];
+
+const capabilities = [
+  "Image understanding",
+  "Visual reasoning",
+  "Prompt-driven generation",
+  "Camera capture support",
+];
+
 const CameraComponent = ({ setImage, setImagePreview, onImagePresent }) => {
   const webcamRef = useRef(null);
   const [cameraActive, setCameraActive] = useState(true);
@@ -26,31 +48,39 @@ const CameraComponent = ({ setImage, setImagePreview, onImagePresent }) => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 p-6 border rounded-xl shadow-2xl bg-white w-full md:w-1/2">
-      <h3 className="text-lg font-semibold text-gray-800 mb-3">Camera Input</h3>
+    <div className="glass-panel flex flex-col gap-4 rounded-[1.75rem] border border-white/15 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm text-slate-300">Camera input</p>
+          <h3 className="text-xl font-semibold text-white">Capture from webcam</h3>
+        </div>
+        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200 backdrop-blur-xl">
+          Live
+        </span>
+      </div>
       {cameraActive ? (
         <Webcam
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          className="rounded-xl w-full max-w-xs h-48 shadow-lg"
+          className="h-56 w-full rounded-[1.4rem] object-cover shadow-2xl ring-1 ring-white/10"
         />
       ) : (
-        <div className="rounded-xl w-full max-w-xs h-48 bg-gray-200 flex items-center justify-center shadow-lg text-sm text-gray-600">
+        <div className="flex h-56 w-full items-center justify-center rounded-[1.4rem] border border-white/10 bg-white/5 text-sm text-slate-300">
           Camera Off
         </div>
       )}
-      <div className="flex gap-2 mt-3">
+      <div className="flex gap-3">
         <button
           onClick={capture}
-          className="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 shadow-md"
+          className="inline-flex items-center justify-center rounded-full bg-white px-4 py-3 text-slate-950 transition duration-300 hover:-translate-y-0.5 hover:bg-emerald-50"
         >
-          <FaCamera className="text-xl" />
+          <FaCamera className="text-base" />
         </button>
         <button
           onClick={() => setCameraActive(!cameraActive)}
-          className="bg-gray-400 text-white p-3 rounded-full hover:bg-gray-500 shadow-md"
+          className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 p-3 text-white backdrop-blur-xl transition duration-300 hover:bg-white/10"
         >
-          {cameraActive ? <FaVideoSlash className="text-xl" /> : <FaVideo className="text-xl" />}
+          {cameraActive ? <FaVideoSlash className="text-base" /> : <FaVideo className="text-base" />}
         </button>
       </div>
     </div>
@@ -132,96 +162,244 @@ const GeminiImageText = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-8 mt-10 bg-gray-100 rounded-2xl shadow-xl transition-all duration-700">
-      {showOutput ? (
-        <div className="w-full bg-white p-4 rounded-xl shadow-md mb-6">
-          <div className="flex justify-between items-center">
-            <h2 className="text-lg font-bold text-gray-800">AI Generated Output</h2>
-            <button
-              onClick={() => setShowOutput(false)}
-              className="bg-red-500 text-white px-3 py-2 mb-3 rounded-full text-sm hover:bg-red-600"
-            >
-              Close
-            </button>
-          </div>
-          <div className="max-h-[250px] overflow-y-auto bg-gray-50 p-3 rounded text-gray-700 text-sm text-justify">
-            {output}
-          </div>
-        </div>
-      ) : (
-        <>
-          <h1 className="text-black text-3xl mb-6 font-bold text-center capitalize">
-            Image Analysis
-          </h1>
+    <div className="relative min-h-screen overflow-hidden px-4 py-6 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(34,197,94,0.24),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(59,130,246,0.24),_transparent_28%),linear-gradient(180deg,_#06111c_0%,_#071725_45%,_#030712_100%)]" />
+      <div className="absolute inset-0 noise-overlay opacity-40" />
 
-          <div className="flex flex-col md:flex-row items-start justify-center gap-6">
-            <div
-              className="flex flex-col items-center justify-center gap-4 border-2 border-dashed border-gray-400 rounded-xl p-6 w-full md:w-1/2 bg-white shadow-2xl hover:border-blue-500 cursor-pointer"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <h3 className="text-lg font-semibold text-gray-800 mb-3">Upload Image</h3>
-              {imagePreview ? (
-                <div className="relative">
-                  <img
-                    src={imagePreview}
-                    alt="Uploaded"
-                    className="rounded-xl w-full max-w-xs h-48 object-cover shadow-lg"
-                  />
+      <div className="relative mx-auto max-w-7xl space-y-6 lg:space-y-8">
+        <section className="glass-panel overflow-hidden rounded-[2rem] border border-white/15 p-6 shadow-[0_30px_120px_rgba(0,0,0,0.45)] sm:p-8 animate-rise-in">
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-white/80 backdrop-blur-xl">
+                <FaCamera className="text-emerald-300" />
+                AI image analysis workspace
+              </div>
+
+              <div className="space-y-4">
+                <h1 className="max-w-2xl text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
+                  Analyze images with a calm, premium, glass-style interface.
+                </h1>
+                <p className="max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
+                  Upload a file or use your camera, then ask Gemini to describe, explain, compare, or improve what it sees. The page is responsive, motion-aware, and visually consistent with the new home theme.
+                </p>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-3">
+                {highlights.map((item) => (
+                  <div key={item.label} className="rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
+                    <p className="text-sm text-slate-400">{item.label}</p>
+                    <p className="mt-1 text-sm font-medium text-white">{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="glass-panel relative overflow-hidden rounded-[1.75rem] border border-white/15 p-5">
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14),transparent_35%,transparent_70%,rgba(255,255,255,0.07))]" />
+              <div className="relative space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-slate-300">Toolkit</p>
+                    <h2 className="text-2xl font-semibold text-white">What this page can do</h2>
+                  </div>
+                  <div className="rounded-2xl border border-white/15 bg-white/10 p-3 text-white backdrop-blur-xl">
+                    <FaCloudUploadAlt />
+                  </div>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {capabilities.map((item) => (
+                    <div key={item} className="rounded-3xl border border-white/10 bg-slate-950/40 p-4 text-sm text-slate-200">
+                      {item}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
+                  <div className="flex items-center justify-between text-sm text-slate-300">
+                    <span>Interaction quality</span>
+                    <span>Polished</span>
+                  </div>
+                  <div className="mt-3 h-3 overflow-hidden rounded-full bg-white/10">
+                    <div className="h-full w-[91%] rounded-full bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400 progress-bar" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+          <section className="glass-panel rounded-[2rem] border border-white/15 p-5 sm:p-6 animate-rise-in delay-1">
+            {showOutput ? (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm text-slate-300">AI generated output</p>
+                    <h2 className="text-2xl font-semibold text-white">Your analysis is ready</h2>
+                  </div>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setImagePreview(null);
-                      setCameraImage(null);
-                      setIsImagePresent(false);
-                    }}
-                    className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
+                    onClick={() => setShowOutput(false)}
+                    className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-xl transition duration-300 hover:bg-white/15"
                   >
-                    <FaTrash className="text-sm" />
+                    Close
                   </button>
                 </div>
-              ) : (
-                <>
-                  <FaCloudUploadAlt className="text-6xl text-gray-500" />
-                  <span className="text-gray-700 text-sm font-semibold text-center">Select an Image</span>
-                </>
-              )}
-              <input
-                type="file"
-                ref={fileInputRef}
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageChange}
-              />
-            </div>
-            <CameraComponent
-              setImage={setCameraImage}
-              setImagePreview={setImagePreview}
-              onImagePresent={handleImagePresent}
-            />
-          </div>
 
-          <form onSubmit={handleSubmit} className="mt-6">
-            <input
-              type="text"
-              name="prompt"
-              placeholder="Enter your prompt"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              className="border border-gray-300 rounded-xl px-4 py-3 w-full text-sm"
-            />
-            <button
-              type="submit"
-              className={`bg-blue-600 text-white p-3 rounded-xl flex items-center justify-center w-full mt-4 hover:bg-blue-700 transition-colors text-sm font-semibold ${
-                !isImagePresent ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              disabled={!isImagePresent}
-            >
-              <FaPaperPlane className="mr-2" />
-              Generate Analysis
-            </button>
-          </form>
-        </>
-      )}
+                <div className="rounded-[1.5rem] border border-white/10 bg-slate-950/50 p-4 text-sm leading-7 text-slate-200 shadow-inner">
+                  <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.28em] text-slate-400">
+                    <span className="h-2 w-2 rounded-full bg-emerald-300" />
+                    streamed response
+                  </div>
+                  <div className="max-h-[420px] overflow-y-auto pr-2">
+                    {output}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-sm text-slate-300">Analysis workspace</p>
+                    <h2 className="text-2xl font-semibold text-white">Upload an image</h2>
+                  </div>
+                  <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300 backdrop-blur-xl">
+                    Drag, tap, or capture
+                  </div>
+                </div>
+
+                <div className="mt-6 grid gap-5 lg:grid-cols-2">
+                  <div
+                    className="group flex min-h-[360px] flex-col items-center justify-center gap-4 rounded-[1.75rem] border border-dashed border-white/15 bg-white/5 p-6 text-center transition duration-300 hover:border-white/30 hover:bg-white/7"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <div className="rounded-full border border-white/15 bg-white/10 p-5 text-white backdrop-blur-xl transition duration-300 group-hover:scale-105">
+                      <FaCloudUploadAlt className="text-4xl text-emerald-300" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">Upload image</h3>
+                      <p className="mt-1 text-sm text-slate-300">Select a file from your device for immediate analysis.</p>
+                    </div>
+
+                    {imagePreview ? (
+                      <div className="relative mt-2 w-full">
+                        <img
+                          src={imagePreview}
+                          alt="Uploaded"
+                          className="mx-auto h-56 w-full max-w-md rounded-[1.4rem] object-cover shadow-2xl ring-1 ring-white/10"
+                        />
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setImagePreview(null);
+                            setCameraImage(null);
+                            setIsImagePresent(false);
+                          }}
+                          className="absolute right-3 top-3 rounded-full bg-red-500 p-2 text-white shadow-lg transition duration-300 hover:bg-red-600"
+                        >
+                          <FaTrash className="text-sm" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="mt-2 rounded-[1.4rem] border border-white/10 bg-slate-950/40 px-4 py-3 text-sm text-slate-400">
+                        PNG, JPG, JPEG supported
+                      </div>
+                    )}
+
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleImageChange}
+                    />
+                  </div>
+
+                  <CameraComponent
+                    setImage={setCameraImage}
+                    setImagePreview={setImagePreview}
+                    onImagePresent={handleImagePresent}
+                  />
+                </div>
+
+                <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+                  <div>
+                    <label className="mb-2 block text-sm text-slate-300">Prompt</label>
+                    <textarea
+                      name="prompt"
+                      placeholder="Describe what you want Gemini to do with this image..."
+                      value={prompt}
+                      onChange={(e) => setPrompt(e.target.value)}
+                      rows={4}
+                      className="w-full rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-white/25 focus:bg-white/7"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className={`inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-3.5 text-sm font-semibold text-slate-950 transition duration-300 hover:-translate-y-0.5 hover:bg-emerald-50 ${
+                      !isImagePresent ? "cursor-not-allowed opacity-50" : ""
+                    }`}
+                    disabled={!isImagePresent}
+                  >
+                    <FaPaperPlane />
+                    Generate analysis
+                  </button>
+                </form>
+              </>
+            )}
+          </section>
+
+          <aside className="space-y-6">
+            <div className="glass-panel rounded-[2rem] border border-white/15 p-5 sm:p-6 animate-rise-in delay-2">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm text-slate-300">Quick tips</p>
+                  <h3 className="text-xl font-semibold text-white">Best results</h3>
+                </div>
+                <div className="rounded-2xl border border-white/15 bg-white/10 p-3 text-emerald-300 backdrop-blur-xl">
+                  <FaVideo />
+                </div>
+              </div>
+
+              <div className="mt-5 space-y-3">
+                {[
+                  "Use clear, well-lit images for better analysis.",
+                  "Ask for summaries, comparisons, or step-by-step explanations.",
+                  "Try camera capture for a smoother mobile workflow.",
+                ].map((tip) => (
+                  <div key={tip} className="rounded-3xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-slate-300">
+                    {tip}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="glass-panel rounded-[2rem] border border-white/15 p-5 sm:p-6 animate-rise-in delay-3">
+              <p className="text-sm text-slate-300">Flow</p>
+              <h3 className="mt-1 text-xl font-semibold text-white">From image to insight</h3>
+              <div className="mt-5 space-y-4">
+                {[
+                  "Pick a file or capture from camera",
+                  "Add a short prompt or question",
+                  "Review streamed Gemini output",
+                ].map((step, index) => (
+                  <div key={step} className="flex items-start gap-3 rounded-3xl border border-white/10 bg-slate-950/40 p-4">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-sm font-semibold text-white">
+                      {index + 1}
+                    </div>
+                    <p className="text-sm leading-6 text-slate-300">{step}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <footer className="pb-4 text-center text-xs text-slate-400 sm:pb-6">
+          Built with the same visual language as the homepage: glassmorphism, depth, and motion.
+        </footer>
+      </div>
     </div>
   );
 };

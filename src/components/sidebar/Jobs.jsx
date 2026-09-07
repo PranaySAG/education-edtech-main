@@ -165,80 +165,152 @@ function Job() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-200 to-gray-400 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 font-sans antialiased">
-      <div className="w-full max-w-4xl rounded-xl shadow-2xl p-8 space-y-8 border border-gray-200 transform transition-all duration-300 hover:scale-[1.005] bg-white/5 backdrop-filter backdrop-blur-md">
-        <h1 className="text-3xl font-extrabold text-gray-900 text-center flex items-center justify-center gap-3">
-          <FaDollarSign className="text-emerald-500 text-3xl animate-bounce-slow" />
-          Find Your Dream Job
-        </h1>
-        <p className="text-center text-gray-700 text-md max-w-md mx-auto">
-          Get estimated salary ranges and explore real-world career paths from professional profiles.
-        </p>
+    <div className="relative min-h-screen overflow-hidden px-4 py-6 sm:px-6 lg:px-8 text-white">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.2),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(59,130,246,0.18),_transparent_28%),linear-gradient(180deg,_#06111c_0%,_#071725_45%,_#030712_100%)]" />
+      <div className="absolute inset-0 noise-overlay opacity-35" />
 
-        <div className="max-h-[calc(85vh-200px)] overflow-y-auto pr-4 custom-scrollbar">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-            <div className="relative group">
-              <FaBriefcase className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm group-focus-within:text-blue-500 transition-colors" />
+      <div className="relative mx-auto max-w-7xl space-y-6">
+        <section className="glass-panel overflow-hidden rounded-[2rem] border border-white/15 p-6 shadow-[0_30px_120px_rgba(0,0,0,0.45)] sm:p-8 animate-rise-in">
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-white/80 backdrop-blur-xl">
+                <FaDollarSign className="shrink-0 align-middle text-emerald-300" />
+                Career salary intelligence
+              </div>
+
+              <div className="space-y-4">
+                <h1 className="max-w-2xl text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
+                  Find your next role with a premium, glass-style salary explorer.
+                </h1>
+                <p className="max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
+                  Search by job title and location, review estimated salary bands, inspect sample profile insights, and use the negotiation guide to prepare confidently.
+                </p>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-3">
+                {[
+                  { label: "Search history", value: "Saved locally" },
+                  { label: "Career data", value: "Salary and skills" },
+                  { label: "Decision aid", value: "Negotiation tips" },
+                ].map((item) => (
+                  <div key={item.label} className="rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
+                    <p className="text-sm text-slate-400">{item.label}</p>
+                    <p className="mt-1 text-sm font-medium text-white">{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="glass-panel relative overflow-hidden rounded-[1.75rem] border border-white/15 p-5">
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.14),transparent_35%,transparent_70%,rgba(255,255,255,0.07))]" />
+              <div className="relative space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-slate-300">Quick snapshot</p>
+                    <h2 className="text-2xl font-semibold text-white">A sharper job search experience</h2>
+                  </div>
+                  <div className="rounded-2xl border border-white/15 bg-white/10 p-3 text-emerald-300 backdrop-blur-xl">
+                    <FaSearch className="shrink-0 align-middle" />
+                  </div>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {[
+                    { title: "Estimated pay", value: "Instant" },
+                    { title: "Recent searches", value: "Tap to reload" },
+                    { title: "Profile insight", value: "Sample LinkedIn" },
+                    { title: "Advice", value: "Negotiation-ready" },
+                  ].map((item) => (
+                    <div key={item.title} className="rounded-3xl border border-white/10 bg-slate-950/40 p-4">
+                      <p className="text-sm text-slate-400">{item.title}</p>
+                      <p className="mt-2 text-lg font-semibold text-white">{item.value}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
+                  <div className="flex items-center justify-between text-sm text-slate-300">
+                    <span>Interface polish</span>
+                    <span>High</span>
+                  </div>
+                  <div className="mt-3 h-3 overflow-hidden rounded-full bg-white/10">
+                    <div className="h-full w-[88%] rounded-full bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400 progress-bar" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="glass-panel rounded-[2rem] border border-white/15 p-5 sm:p-6 animate-rise-in delay-1">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
+            <div className="relative flex-1">
+              <label className="mb-2 block text-sm text-slate-300">Job title</label>
+              <FaBriefcase className="absolute left-4 top-[3.15rem] shrink-0 align-middle text-slate-400" />
               <input
                 type="text"
                 value={jobTitle}
                 onChange={(e) => setJobTitle(e.target.value)}
                 placeholder="Job Title (e.g., Data Scientist)"
-                className="pl-9 pr-8 py-2 border border-gray-300 rounded-lg w-full text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition bg-white/50 backdrop-filter backdrop-blur-sm"
-                onKeyPress={(e) => e.key === 'Enter' && fetchSalaryData()}
+                className="w-full rounded-[1.3rem] border border-white/10 bg-white/5 py-3 pl-11 pr-10 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-white/25 focus:bg-white/10"
+                onKeyDown={(e) => e.key === 'Enter' && fetchSalaryData()}
                 aria-label="Job Title"
               />
               {jobTitle && (
                 <button
                   onClick={() => clearInput('jobTitle')}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-500 transition-colors"
+                  className="absolute right-4 top-[3.05rem] text-slate-400 transition hover:text-red-300"
                   aria-label="Clear job title"
                 >
-                  <FaTimesCircle className="text-sm" />
+                  <FaTimesCircle className="shrink-0 align-middle text-sm" />
                 </button>
               )}
             </div>
-            <div className="relative group">
-              <FaMapMarkerAlt className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm group-focus-within:text-blue-500 transition-colors" />
+
+            <div className="relative flex-1">
+              <label className="mb-2 block text-sm text-slate-300">Location</label>
+              <FaMapMarkerAlt className="absolute left-4 top-[3.15rem] shrink-0 align-middle text-slate-400" />
               <input
                 type="text"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="Location (e.g., London)"
-                className="pl-9 pr-8 py-2 border border-gray-300 rounded-lg w-full text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition bg-white/50 backdrop-filter backdrop-blur-sm"
-                onKeyPress={(e) => e.key === 'Enter' && fetchSalaryData()}
+                className="w-full rounded-[1.3rem] border border-white/10 bg-white/5 py-3 pl-11 pr-10 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-white/25 focus:bg-white/10"
+                onKeyDown={(e) => e.key === 'Enter' && fetchSalaryData()}
                 aria-label="Location"
               />
               {location && (
                 <button
                   onClick={() => clearInput('location')}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-500 transition-colors"
+                  className="absolute right-4 top-[3.05rem] text-slate-400 transition hover:text-red-300"
                   aria-label="Clear location"
                 >
-                  <FaTimesCircle className="text-sm" />
+                  <FaTimesCircle className="shrink-0 align-middle text-sm" />
                 </button>
               )}
             </div>
+
             <button
               onClick={fetchSalaryData}
-              className={`w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200 text-sm
-                ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+              className={`inline-flex items-center justify-center rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 transition duration-300 hover:-translate-y-0.5 hover:bg-emerald-50 ${
+                loading ? 'cursor-not-allowed opacity-70' : ''
+              }`}
               disabled={loading}
               aria-label="Search"
             >
               {loading ? (
-                <FaSpinner className="animate-spin mr-2 text-md" />
+                <FaSpinner className="mr-2 shrink-0 align-middle animate-spin" />
               ) : (
-                <FaSearch className="mr-2 text-md" />
+                <FaSearch className="mr-2 shrink-0 align-middle" />
               )}
               {loading ? 'Searching...' : 'Search'}
             </button>
           </div>
 
           {recentSearches.length > 0 && (
-            <div className="pt-2 border-t border-gray-100 mt-4 animate-fade-in">
-              <p className="text-gray-700 text-xs font-semibold mb-2 flex items-center gap-1">
-                <FaHistory className="text-gray-500 text-sm" /> Recent Searches:
+            <div className="mt-5 border-t border-white/10 pt-5 animate-rise-in delay-2">
+              <p className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-300">
+                <FaHistory className="shrink-0 align-middle text-emerald-300" /> Recent searches
               </p>
               <div className="flex flex-wrap gap-2">
                 {recentSearches.map((search, index) => (
@@ -250,7 +322,7 @@ function Job() {
                         toast(`Loaded: ${search.jobTitle} in ${search.location}`);
                         fetchSalaryData();
                       }}
-                      className="bg-white/30 text-gray-800 text-xs px-3 py-1 rounded-full hover:bg-blue-100 hover:text-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300 pr-7 backdrop-filter backdrop-blur-sm"
+                      className="rounded-full border border-white/10 bg-white/5 px-4 py-2 pr-9 text-xs text-slate-200 backdrop-blur-xl transition hover:border-white/20 hover:bg-white/10"
                       title={`Search for ${search.jobTitle} in ${search.location}`}
                     >
                       {search.jobTitle} in {search.location}
@@ -260,222 +332,239 @@ function Job() {
                         e.stopPropagation();
                         removeSearch(search);
                       }}
-                      className="absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-500 transition-colors z-10 p-1 rounded-full"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-red-300"
                       aria-label={`Remove search for ${search.jobTitle} in ${search.location}`}
                       title="Remove search"
                     >
-                      <FaTimesCircle className="text-xs" />
+                      <FaTimesCircle className="shrink-0 align-middle text-xs" />
                     </button>
                   </div>
                 ))}
               </div>
             </div>
           )}
+        </section>
 
-          {loading && (
-            <div className="mt-6">
-              <div className="bg-white/10 rounded-xl h-48 flex items-center justify-center animate-pulse border border-gray-200 backdrop-filter backdrop-blur-md">
-                <FaSpinner className="text-blue-500 text-3xl animate-spin" />
+        <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+          <section className="space-y-6">
+            {loading && (
+              <div className="glass-panel rounded-[2rem] border border-white/15 p-6 animate-rise-in delay-1">
+                <div className="flex h-60 items-center justify-center rounded-[1.5rem] border border-white/10 bg-white/5">
+                  <FaSpinner className="shrink-0 align-middle text-4xl text-emerald-300 animate-spin" />
+                </div>
+                <p className="mt-4 flex items-center justify-center gap-2 text-sm text-slate-300">
+                  <FaSpinner className="mr-2 shrink-0 align-middle animate-spin" /> Loading estimated salary data...
+                </p>
               </div>
-              <p className="flex items-center justify-center text-blue-600 text-sm font-medium mt-4">
-                <FaSpinner className="animate-spin mr-2" /> Loading estimated salary data...
-              </p>
-            </div>
-          )}
-          {error && (
-            <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg text-sm text-center mt-4 flex flex-col items-center justify-center gap-2 animate-fade-in transition-all duration-300">
-              <FaInfoCircle className="text-md" /> {error}
-              <button
-                onClick={fetchSalaryData}
-                className="mt-2 text-blue-600 hover:underline text-sm font-medium flex items-center gap-1"
-              >
-                <FaSearch /> Try Search Again
-              </button>
-            </div>
-          )}
+            )}
 
-          {!loading && !error && linkedInPositions.length > 0 && (
-            <div className="space-y-6 mt-8">
-              <div className="rounded-xl border border-gray-200 shadow-sm p-6 animate-fade-in bg-white/5 backdrop-filter backdrop-blur-md">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 border-b pb-2 border-gray-100">
-                  <FaUserCircle className="text-indigo-500" /> Companies from Sample Profile: "Ted Gaubert"
+            {error && (
+              <div className="glass-panel rounded-[2rem] border border-red-400/20 p-6 text-sm text-red-100 animate-rise-in delay-1">
+                <div className="flex items-start gap-3 rounded-[1.4rem] border border-red-400/20 bg-red-500/10 p-4">
+                  <FaInfoCircle className="mt-0.5 shrink-0 align-middle text-red-300" />
+                  <p>{error}</p>
+                </div>
+                <button
+                  onClick={fetchSalaryData}
+                  className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:-translate-y-0.5 hover:bg-emerald-50"
+                >
+                  <FaSearch className="shrink-0 align-middle" /> Try Search Again
+                </button>
+              </div>
+            )}
+
+            {salaryInfo && (
+              <div ref={resultsRef} className="glass-panel space-y-5 rounded-[2rem] border border-white/15 p-6 animate-rise-in delay-2">
+                <div className="flex flex-col gap-4 border-b border-white/10 pb-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-sm text-slate-300">Salary overview</p>
+                    <h2 className="mt-1 text-2xl font-semibold text-white flex items-center gap-2 flex-wrap">
+                      <FaBriefcaseMedical className="shrink-0 align-middle text-emerald-300" /> {salaryInfo.job_title}
+                      <span className="flex items-center gap-1 text-base font-normal text-slate-300">
+                        <FaMapMarkerAlt className="shrink-0 align-middle text-sm" /> {salaryInfo.location}
+                      </span>
+                    </h2>
+                  </div>
+                  <button
+                    onClick={copySalaryInfo}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/90 backdrop-blur-xl transition hover:bg-white/10"
+                    aria-label="Copy salary info"
+                    title="Copy salary information"
+                  >
+                    <FaCopy className="shrink-0 align-middle" /> Copy
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div className="rounded-[1.4rem] border border-white/10 bg-slate-950/40 p-4">
+                    <p className="text-xs uppercase tracking-wider text-slate-400 mb-1">Salary Range</p>
+                    <p className="text-2xl font-semibold text-white">
+                      ${salaryInfo.min_salary?.toLocaleString('en-US', { maximumFractionDigits: 0 })} - ${salaryInfo.max_salary?.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                    </p>
+                    <p className="text-xs capitalize mt-1 text-slate-400">per {salaryInfo.salary_period?.toLowerCase() || 'period'}</p>
+                  </div>
+                  <div className="rounded-[1.4rem] border border-white/10 bg-slate-950/40 p-4">
+                    <p className="text-xs uppercase tracking-wider text-slate-400 mb-1">Median Salary</p>
+                    <p className="text-2xl font-semibold text-emerald-300">
+                      ${salaryInfo.median_salary?.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                    </p>
+                    <p className="text-xs capitalize mt-1 text-slate-400">per {salaryInfo.salary_period?.toLowerCase() || 'period'}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div className="rounded-[1.4rem] border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
+                    <p className="text-xs uppercase tracking-wider text-slate-400 mb-1">Base Salary</p>
+                    <p className="text-lg font-medium text-white">
+                      ${salaryInfo.min_base_salary?.toLocaleString('en-US', { maximumFractionDigits: 0 })} - ${salaryInfo.max_base_salary?.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                    </p>
+                  </div>
+                  <div className="rounded-[1.4rem] border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
+                    <p className="text-xs uppercase tracking-wider text-slate-400 mb-1">Additional Pay</p>
+                    <p className="text-lg font-medium text-white">
+                      ${salaryInfo.min_additional_pay?.toLocaleString('en-US', { maximumFractionDigits: 0 })} - ${salaryInfo.max_additional_pay?.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid gap-4 border-t border-white/10 pt-5 text-sm text-slate-300 sm:grid-cols-3">
+                  <p className="flex items-center gap-2">
+                    <FaBuilding className="shrink-0 align-middle text-emerald-300" />
+                    Publisher:{' '}
+                    <a
+                      href={salaryInfo.publisher_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 font-medium text-cyan-300 hover:underline"
+                    >
+                      {salaryInfo.publisher_name || 'N/A'}
+                      <FaExternalLinkAlt className="shrink-0 align-middle text-xs" />
+                    </a>
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <FaInfoCircle className="shrink-0 align-middle text-emerald-300" />
+                    Confidence: <span className="font-medium text-white">{salaryInfo.confidence || 'N/A'}</span>
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <FaCalendarAlt className="shrink-0 align-middle text-emerald-300" />
+                    Updated:{' '}
+                    <span className="font-medium text-white">
+                      {salaryInfo.salaries_updated_at ? new Date(salaryInfo.salaries_updated_at).toLocaleDateString() : 'N/A'}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {!loading && !error && linkedInPositions.length > 0 && (
+              <div className="glass-panel rounded-[2rem] border border-white/15 p-6 animate-rise-in delay-3">
+                <h3 className="mb-4 flex items-center gap-2 border-b border-white/10 pb-3 text-lg font-semibold text-white">
+                  <FaUserCircle className="shrink-0 align-middle text-cyan-300" /> Companies from sample profile: Ted Gaubert
                 </h3>
-                <div className="max-h-60 overflow-y-auto pr-2">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                <div className="max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                     {linkedInPositions.map((pos, index) => (
                       <a
                         key={index}
                         href={pos.companyURL || '#'}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex flex-col items-center p-3 border border-gray-100 rounded-lg hover:shadow-md transition-shadow hover:bg-white/10 group backdrop-filter backdrop-blur-sm"
+                        className="group flex flex-col items-center rounded-[1.35rem] border border-white/10 bg-white/5 p-3 text-center transition hover:-translate-y-1 hover:border-white/20 hover:bg-white/10"
                         title={`View ${pos.companyName}'s LinkedIn page or related jobs`}
                       >
                         <img
                           src={pos.companyLogo || 'https://via.placeholder.com/40/F3F4F6/9CA3AF?text=Co'}
                           alt={`${pos.companyName} logo`}
-                          className="w-10 h-10 object-contain mb-2 flex-shrink-0 group-hover:scale-105 transition-transform"
+                          className="mb-2 h-10 w-10 flex-shrink-0 object-contain transition-transform group-hover:scale-105"
                         />
-                        <p className="text-sm font-medium text-gray-700 text-center">{pos.companyName}</p>
-                        <p className="text-xs text-gray-500 text-center mt-1 truncate w-full">{pos.title}</p>
-                        <FaExternalLinkAlt className="text-indigo-500 text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <p className="text-sm font-medium text-white">{pos.companyName}</p>
+                        <p className="mt-1 w-full truncate text-xs text-slate-400">{pos.title}</p>
+                        <FaExternalLinkAlt className="mt-2 shrink-0 align-middle text-xs text-cyan-300 opacity-0 transition-opacity group-hover:opacity-100" />
                       </a>
                     ))}
                   </div>
                 </div>
-                <p className="text-xs text-gray-600 mt-4">
-                  <FaInfoCircle className="inline-block mr-1" />
-                  *This section displays companies and roles from a **sample LinkedIn profile (Ted Gaubert)** to demonstrate API integration.
+                <p className="mt-4 text-xs text-slate-400">
+                  <FaInfoCircle className="mr-1 inline-block shrink-0 align-middle" />
+                  This section displays companies and roles from a sample LinkedIn profile to demonstrate API integration.
                 </p>
               </div>
+            )}
+          </section>
 
-              {linkedInSkills.length > 0 && (
-                <div className="rounded-xl border border-gray-200 shadow-sm p-6 animate-fade-in bg-white/5 backdrop-filter backdrop-blur-md">
-                  <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 border-b pb-2 border-gray-100">
-                    <FaTags className="text-purple-500" /> Key Skills from Sample Profile
-                  </h3>
-                  <div className="max-h-40 overflow-y-auto pr-2">
-                    <div className="flex flex-wrap gap-2">
-                      {linkedInSkills.map((skill, index) => (
-                        <span
-                          key={index}
-                          className="bg-white/30 text-purple-800 text-xs px-3 py-1 rounded-full backdrop-filter backdrop-blur-sm"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
+          <aside className="space-y-6">
+            <div className="glass-panel rounded-[2rem] border border-white/15 p-6 animate-rise-in delay-2">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm text-slate-300">Negotiation notes</p>
+                  <h3 className="text-xl font-semibold text-white">How to use the result</h3>
+                </div>
+                <div className="rounded-2xl border border-white/15 bg-white/10 p-3 text-amber-300 backdrop-blur-xl">
+                  <FaLightbulb className="shrink-0 align-middle" />
+                </div>
+              </div>
+
+              <ul className="mt-5 space-y-3 text-sm text-slate-300">
+                <li className="flex items-start gap-3 rounded-3xl border border-white/10 bg-white/5 p-4">
+                  <FaInfoCircle className="mt-0.5 shrink-0 align-middle text-emerald-300" />
+                  Research the range before interviews so you can anchor confidently.
+                </li>
+                <li className="flex items-start gap-3 rounded-3xl border border-white/10 bg-white/5 p-4">
+                  <FaInfoCircle className="mt-0.5 shrink-0 align-middle text-emerald-300" />
+                  Compare base pay, bonuses, equity, and PTO before accepting an offer.
+                </li>
+                <li className="flex items-start gap-3 rounded-3xl border border-white/10 bg-white/5 p-4">
+                  <FaInfoCircle className="mt-0.5 shrink-0 align-middle text-emerald-300" />
+                  Keep a written record of the final package so nothing gets lost.
+                </li>
+              </ul>
+
+              <p className="mt-5 flex items-center gap-2 text-xs text-slate-400">
+                <FaLink className="shrink-0 align-middle text-emerald-300" />
+                <a href="https://www.forbes.com/sites/ashleystahl/2023/11/07/how-to-negotiate-salary-like-a-pro/?sh=4b7e19d67b0d" target="_blank" rel="noopener noreferrer" className="text-cyan-300 hover:underline">
+                  Learn more about salary negotiation.
+                </a>
+              </p>
+            </div>
+
+            {linkedInSkills.length > 0 && (
+              <div className="glass-panel rounded-[2rem] border border-white/15 p-6 animate-rise-in delay-3">
+                <h3 className="mb-4 flex items-center gap-2 border-b border-white/10 pb-3 text-lg font-semibold text-white">
+                  <FaTags className="shrink-0 align-middle text-violet-300" /> Key skills from sample profile
+                </h3>
+                <div className="max-h-48 overflow-y-auto pr-2 custom-scrollbar">
+                  <div className="flex flex-wrap gap-2">
+                    {linkedInSkills.map((skill, index) => (
+                      <span
+                        key={index}
+                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200 backdrop-blur-xl"
+                      >
+                        {skill}
+                      </span>
+                    ))}
                   </div>
-                  <p className="text-xs text-gray-600 mt-4">
-                    <FaInfoCircle className="inline-block mr-1" />
-                    *These are key skills extracted from the sample LinkedIn profile's work experience.
-                  </p>
                 </div>
-              )}
-            </div>
-          )}
-
-          {salaryInfo && (
-            <div ref={resultsRef} className="rounded-xl border border-gray-200 shadow-sm p-6 space-y-5 mt-6 animate-fade-in bg-white/5 backdrop-filter backdrop-blur-md">
-              <div className="flex justify-between items-center pb-2 border-b border-gray-100">
-                <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                  <FaBriefcaseMedical className="text-gray-500 text-lg" /> {salaryInfo.job_title}
-                  <span className="text-gray-600 font-normal text-lg flex items-center gap-1">
-                    <FaMapMarkerAlt className="text-sm" /> {salaryInfo.location}
-                  </span>
-                </h2>
-                <button
-                  onClick={copySalaryInfo}
-                  className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-1 text-sm"
-                  aria-label="Copy salary info"
-                  title="Copy salary information"
-                >
-                  <FaCopy /> Copy
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-4 rounded-lg border border-gray-200 transform transition-transform hover:scale-[1.01] bg-white/10 backdrop-filter backdrop-blur-sm">
-                  <p className="text-gray-600 text-xs uppercase tracking-wider mb-1">Salary Range</p>
-                  <p className="text-2xl font-semibold text-emerald-600">
-                    ${salaryInfo.min_salary?.toLocaleString('en-US', { maximumFractionDigits: 0 })} - ${salaryInfo.max_salary?.toLocaleString('en-US', { maximumFractionDigits: 0 })}
-                  </p>
-                  <p className="text-gray-600 text-xs capitalize mt-1">per {salaryInfo.salary_period?.toLowerCase() || 'period'}</p>
-                </div>
-                <div className="p-4 rounded-lg border border-gray-200 transform transition-transform hover:scale-[1.01] bg-white/10 backdrop-filter backdrop-blur-sm">
-                  <p className="text-gray-600 text-xs uppercase tracking-wider mb-1">Median Salary</p>
-                  <p className="text-2xl font-semibold text-blue-600">
-                    ${salaryInfo.median_salary?.toLocaleString('en-US', { maximumFractionDigits: 0 })}
-                  </p>
-                  <p className="text-gray-600 text-xs capitalize mt-1">per {salaryInfo.salary_period?.toLowerCase() || 'period'}</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-4 rounded-lg border border-gray-200 bg-white/10 backdrop-filter backdrop-blur-sm">
-                  <p className="text-gray-600 text-xs uppercase tracking-wider mb-1">Base Salary</p>
-                  <p className="text-lg font-medium text-gray-800">
-                    ${salaryInfo.min_base_salary?.toLocaleString('en-US', { maximumFractionDigits: 0 })} - ${salaryInfo.max_base_salary?.toLocaleString('en-US', { maximumFractionDigits: 0 })}
-                  </p>
-                </div>
-                <div className="p-4 rounded-lg border border-gray-200 bg-white/10 backdrop-filter backdrop-blur-sm">
-                  <p className="text-gray-600 text-xs uppercase tracking-wider mb-1">Additional Pay</p>
-                  <p className="text-lg font-medium text-gray-800">
-                    ${salaryInfo.min_additional_pay?.toLocaleString('en-US', { maximumFractionDigits: 0 })} - ${salaryInfo.max_additional_pay?.toLocaleString('en-US', { maximumFractionDigits: 0 })}
-                  </p>
-                </div>
-              </div>
-
-              <div className="border-t border-gray-100 pt-5 mt-5 text-sm text-gray-700 flex justify-between items-center flex-wrap gap-y-2">
-                <p className="flex items-center gap-2">
-                  <FaBuilding className="text-gray-500 text-sm" />
-                  Publisher:{' '}
-                  <a
-                    href={salaryInfo.publisher_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline flex items-center gap-1 font-medium"
-                  >
-                    {salaryInfo.publisher_name || 'N/A'}
-                    <FaExternalLinkAlt className="text-xs ml-0.5" />
-                  </a>
-                </p>
-                <p className="flex items-center gap-2">
-                  <FaInfoCircle className="text-gray-500 text-sm" />
-                  Confidence: <span className="font-medium">{salaryInfo.confidence || 'N/A'}</span>
-                </p>
-                <p className="flex items-center gap-2">
-                  <FaCalendarAlt className="text-gray-500 text-sm" />
-                  Updated:{' '}
-                  <span className="font-medium">
-                    {salaryInfo.salaries_updated_at ? new Date(salaryInfo.salaries_updated_at).toLocaleDateString() : 'N/A'}
-                  </span>
+                <p className="mt-4 text-xs text-slate-400">
+                  <FaInfoCircle className="mr-1 inline-block shrink-0 align-middle" />
+                  These skills are extracted from the sample LinkedIn profile's work experience.
                 </p>
               </div>
-            </div>
-          )}
+            )}
 
-          <div className="rounded-xl border border-gray-200 shadow-sm p-6 animate-fade-in bg-white/5 backdrop-filter backdrop-blur-md">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 border-b pb-2 border-gray-100">
-              <FaLightbulb className="text-yellow-500" /> Tips for Salary Negotiation
-            </h3>
-            <ul className="list-none space-y-3 text-gray-700 text-sm">
-              <li className="flex items-start gap-2">
-                <FaInfoCircle className="text-gray-600 mt-1 flex-shrink-0" />
-                **Research is Key:** Use tools like this estimator to know your market value.
-              </li>
-              <li className="flex items-start gap-2">
-                <FaInfoCircle className="text-gray-600 mt-1 flex-shrink-0" />
-                **Highlight Your Value:** Prepare specific examples of your accomplishments and how they align with the role.
-              </li>
-              <li className="flex items-start gap-2">
-                <FaInfoCircle className="text-gray-600 mt-1 flex-shrink-0" />
-                **Consider the Whole Package:** Look beyond base salary to benefits, bonuses, equity, and PTO.
-              </li>
-              <li className="flex items-start gap-2">
-                <FaInfoCircle className="text-gray-600 mt-1 flex-shrink-0" />
-                **Be Confident, Yet Flexible:** Clearly state your desired range but be open to negotiation.
-              </li>
-              <li className="flex items-start gap-2">
-                <FaInfoCircle className="text-gray-600 mt-1 flex-shrink-0" />
-                **Get it in Writing:** Always ensure the final offer is documented.
-              </li>
-            </ul>
-            <p className="text-xs text-gray-600 mt-4 flex items-center gap-1">
-              <FaLink className="inline-block mr-1" />
-              <a href="https://www.forbes.com/sites/ashleystahl/2023/11/07/how-to-negotiate-salary-like-a-pro/?sh=4b7e19d67b0d" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                Learn more about salary negotiation.
-              </a>
-            </p>
-          </div>
-
-          {!salaryInfo && !error && !loading && (jobTitle.trim() === '' && location.trim() === '') && (
-            <div className="bg-blue-50 border border-blue-300 text-blue-800 px-4 py-3 rounded-lg text-sm text-center mt-4 flex items-center justify-center gap-2 animate-fade-in">
-              <FaInfoCircle className="text-md" />
-              Enter a job title and location to find salary estimates and career insights instantly!
-            </div>
-          )}
+            {!salaryInfo && !error && !loading && (jobTitle.trim() === '' && location.trim() === '') && (
+              <div className="glass-panel rounded-[2rem] border border-white/15 p-5 text-sm text-slate-300 animate-rise-in delay-3">
+                <div className="flex items-center gap-2 rounded-3xl border border-white/10 bg-white/5 p-4">
+                  <FaInfoCircle className="shrink-0 align-middle text-emerald-300" />
+                  Enter a job title and location to find salary estimates and career insights instantly.
+                </div>
+              </div>
+            )}
+          </aside>
         </div>
+
+        <footer className="pb-4 text-center text-xs text-slate-400 sm:pb-6">
+          Salary tools, profile insights, and negotiation guidance presented in the same glassmorphism theme.
+        </footer>
       </div>
     </div>
   );

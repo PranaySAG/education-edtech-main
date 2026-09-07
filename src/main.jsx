@@ -13,22 +13,21 @@ const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 // For Create React App:
 // const PUBLISHABLE_KEY = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
 
-// Throw an error if the key is not set, good for debugging
-if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key from Clerk. Make sure to set VITE_CLERK_PUBLISHABLE_KEY (or REACT_APP_CLERK_PUBLISHABLE_KEY) in your .env file.");
-}
+const app = PUBLISHABLE_KEY ? (
+  <ClerkProvider
+    publishableKey={PUBLISHABLE_KEY}
+    afterSignInUrl="/"
+    afterSignUpUrl="/"
+    afterSignOutUrl="/"
+  >
+    <App />
+  </ClerkProvider>
+) : (
+  <App />
+);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ClerkProvider
-      publishableKey={PUBLISHABLE_KEY}
-      // Optional: Specify where to redirect after sign-in/sign-up/sign-out
-      // You can also manage these in your Clerk dashboard settings
-      afterSignInUrl="/"
-      afterSignUpUrl="/"
-      afterSignOutUrl="/"
-    >
-      <App />
-    </ClerkProvider>
+    {app}
   </React.StrictMode>,
 );

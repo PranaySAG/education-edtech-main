@@ -2,6 +2,111 @@
 
 @import "tailwindcss";
 
-*{ 
-    font-family: "poppins", sans-serif;
+* {
+    font-family: "Poppins", sans-serif;
+}
+
+html {
+    background: #020617;
+}
+
+body {
+    min-height: 100vh;
+    background: #020617;
+}
+
+#root {
+    min-height: 100vh;
+}
+
+.home-shell {
+    scrollbar-width: none;
+}
+
+.home-shell::-webkit-scrollbar {
+    display: none;
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 24px 70px rgba(2, 6, 23, 0.35);
+}
+
+.noise-overlay {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.075) 1px, transparent 1px);
+    background-size: 18px 18px;
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.85), transparent 95%);
+}
+
+.animate-rise-in {
+    animation: riseIn 0.8s ease both;
+}
+
+.delay-1 {
+    animation-delay: 0.12s;
+}
+
+.delay-2 {
+    animation-delay: 0.24s;
+}
+
+.delay-3 {
+    animation-delay: 0.36s;
+}
+
+.delay-4 {
+    animation-delay: 0.48s;
+}
+
+.animate-float-y {
+    animation: floatY 8s ease-in-out infinite;
+}
+
+.progress-bar {
+    animation: shimmer 3.5s linear infinite;
+    background-size: 200% 100%;
+}
+
+.course-card {
+    transform: translateY(0);
+    transition: transform 240ms ease, box-shadow 240ms ease;
+}
+
+.course-card:hover {
+    transform: translateY(-6px) scale(1.01);
+}
+
+@keyframes riseIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatY {
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }

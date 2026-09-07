@@ -1,26 +1,42 @@
 import axios from "axios";
-const LANGUAGE_VERSIONS = {
-    javascript: "18.15.0",
-    typescript: "5.0.3",
-    python: "3.10.0",
-    java: "15.0.2",
-    csharp: "6.12.0",
-    php: "8.2.3",
-  };
-  
-const API = axios.create({
-    baseURL: "https://emkc.org/api/v2/piston",
-  });
 
-  export const executeCode = async (language, sourceCode) => {
-    const response = await API.post("/execute", {
-        language: language,
-        version: LANGUAGE_VERSIONS[language],
-        files: [
-          {
-            content: sourceCode,
-          },
-        ],
-      });
-    return response.data;
+export const LANGUAGE_IDS = {
+  javascript: 63,
+  typescript: 74,
+  python: 71,
+  java: 62,
+  csharp: 51,
+  php: 68,
+};
+
+const JUDGE0_URL =
+  "https://ce.judge0.com/submissions";
+
+export const executeCode = async (
+  language,
+  sourceCode
+) => {
+  const languageId = LANGUAGE_IDS[language];
+
+  if (!languageId) {
+    throw new Error(
+      `Unsupported language: ${language}`
+    );
   }
+
+  // Create submission
+  const submissionResponse = await axios.post(
+    `${JUDGE0_URL}?base64_encoded=false&wait=true`,
+    {
+      language_id: languageId,
+      source_code: sourceCode,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  return submissionResponse.data;
+};

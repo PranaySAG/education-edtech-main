@@ -8,4 +8,14 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    proxy: {
+      '/judge0': {
+        target: 'https://ce.judge0.com',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/judge0/, ''),
+      },
+    },
+  },
 })
